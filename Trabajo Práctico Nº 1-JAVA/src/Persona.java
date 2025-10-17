@@ -63,4 +63,23 @@ public class Persona {
     public String toString(){
         return super.toString() + "Nombre: " + nombre + ", Apellido: " + apellido + "Edad: " + edad + ", Documento: " + documento;
     }
+
+
+@Override //metodo equals para comparar dos objetos de la clase Persona
+    public boolean equals(Object o) {
+        
+        if (this == o) return true;  // Comprobar si son el mismo objeto
+        if (o == null || getClass() != o.getClass()) return false; // Comprobar si o es nulo o de una clase diferente
+        
+        // Convertir el objeto 'o' a 'Persona'
+        Persona persona = (Persona) o;
+        
+        return java.util.Objects.equals(documento, persona.documento);
+    }
+
+@Override
+    public int hashCode() {
+        // Se utiliza Objects.hash para generar el código hash basado en 'documento'.
+        return java.util.Objects.hash(documento);
+    }
 }

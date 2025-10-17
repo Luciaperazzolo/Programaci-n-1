@@ -1,3 +1,4 @@
+import java.util.Objects; // Necesario para la implementación de equals y hashCode
 public class Materia {
     private String nombre; //Variable de instancia privada para almacenar el nombre de la materia.
     private String codigo;
@@ -48,5 +49,23 @@ public class Materia {
 
     public String toString(){
         return super.toString() + "Nombre: " + nombre + ", Código: " + codigo + "Créditos: " + creditos + ", Calificación: " + calificacion + ", Profesor: " + profesor;
+    }
+
+@Override  //metodo equals
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        
+        Materia materia = (Materia) o;
+        
+        // Comparamos el atributo único 'codigo'
+        return Objects.equals(codigo, materia.codigo);
+    }
+
+    //Método hashCode
+    @Override
+    public int hashCode() {
+        // Se genera el hash basado en 'codigo'.
+        return Objects.hash(codigo);
     }
 }

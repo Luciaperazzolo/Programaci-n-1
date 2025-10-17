@@ -1,4 +1,4 @@
-public class Profesor extends Persona{
+public class Profesor extends Persona implements MiembroUniversidad{
     private String especialidad;
     private int añosExperiencia;
     private Materia[] materiasAsignadas = new Materia[5]; 
@@ -35,10 +35,30 @@ public class Profesor extends Persona{
         }
     }
 
-    //Método toString, Muestra la información de los objetos de manera legible.
-    public String toString(){
-        return super.toString() + "Especialidad: " + especialidad + ", Años Experiencia: " + añosExperiencia + ", Materias Asignadas: " + materiasAsignadas;
+    //Implementación de los métodos de la interfaz MiembroUniversidad
+    @Override
+    public String obtenerRol() {
+        return "Profesor";
     }
+
+    @Override
+    public String obtenerInformacionCompleta() {
+        // Reutilizamos el método toString() para la información completa
+        return this.toString();
+    }
+
+
+
+
+    //Método toString, Muestra la información de los objetos de manera legible.
+    public String toString() {
+    return "Nombre: " + getNombre() + ", " +
+           "Apellido: " + getApellido() + ", " +
+           "Edad: " + getEdad() + ", " +
+           "Documento: " + getDocumento() + ", " +
+           "Especialidad: " + especialidad + ", " +
+           "Años Experiencia: " + añosExperiencia  ;
+}
 
     
 }
