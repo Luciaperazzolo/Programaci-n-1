@@ -1,16 +1,19 @@
-public class Profesor extends Persona implements MiembroUniversidad{
-    private String especialidad;
+public class Profesor extends Persona implements MiembroUniversidad{ //Definimos la clase Profesor, que HEREDA de Persona y CUMPLE el contrato de MiembroUniversidad.
+    private String especialidad; //Especialización del profesor
     private int añosExperiencia;
-    private Materia[] materiasAsignadas = new Materia[5]; 
-    private int cantidadMaterias = 0;
+    private Materia[] materiasAsignadas = new Materia[5]; //Array para guardar hasta 5 objetos Materia.
+    private int cantidadMaterias = 0; //Contador que registra cuántas materias ha asignado actualmente.
 
+    //Constructor que recibe todos los atributos (heredados y propios).
     public Profesor(String nombre, String apellido, int edad, String documento, String especialidad, int añosExperiencia) {
-        // Llama al constructor de la clase base Persona
+        //Llama al constructor de la clase base Persona para inicializar los atributos heredados.
         super(nombre, apellido, edad, documento);
+        //Inicializa los atributos propios.
         this.especialidad = especialidad;
         this.añosExperiencia = añosExperiencia;
     }
 
+    //GETTERS Y SETTERS
     public String getEspecialidad(){
         return especialidad;
     }
@@ -26,41 +29,37 @@ public class Profesor extends Persona implements MiembroUniversidad{
     }
 
 
-    // Método específico para asignar una materia
+    //Método para asignar un objeto Materia al profesor.
     public void asignarMateria(Materia materia) {
-        if (cantidadMaterias < materiasAsignadas.length) {
-            materiasAsignadas[cantidadMaterias++] = materia; 
+        if (cantidadMaterias < materiasAsignadas.length) { //Comprueba si no ha alcanzado el límite de 5 materias.
+            materiasAsignadas[cantidadMaterias++] = materia; //Asigna la materia y luego incrementa el contador.
         } else {
-            System.out.println("El profesor " + getNombre() + " ya tiene el máximo de materias asignadas.");
+            System.out.println("El profesor " + getNombre() + " ya tiene el máximo de materias asignadas."); //Muestra un mensaje si se ha alcanzado el límite.
         }
     }
 
-    //Implementación de los métodos de la interfaz MiembroUniversidad
+    //Método requerido por la interfaz: define el rol del miembro.
     @Override
     public String obtenerRol() {
-        return "Profesor";
+        return "Profesor"; //Devuelve el rol específico.
     }
 
+    //Método requerido por la interfaz: devuelve toda la información.
     @Override
     public String obtenerInformacionCompleta() {
-        // Reutilizamos el método toString() para la información completa
+        //Llama al método toString() para generar la cadena de información completa.
         return this.toString();
     }
 
-
-
-
     //Método toString, Muestra la información de los objetos de manera legible.
     public String toString() {
-    return "Nombre: " + getNombre() + ", " +
+        //Concatena la información heredada de Persona y los atributos propios.
+        return "Nombre: " + getNombre() + ", " +
            "Apellido: " + getApellido() + ", " +
            "Edad: " + getEdad() + ", " +
            "Documento: " + getDocumento() + ", " +
            "Especialidad: " + especialidad + ", " +
            "Años Experiencia: " + añosExperiencia  ;
-}
-
+    }
     
 }
-
-

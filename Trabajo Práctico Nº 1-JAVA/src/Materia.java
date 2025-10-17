@@ -1,4 +1,4 @@
-import java.util.Objects; // Necesario para la implementación de equals y hashCode
+import java.util.Objects; //Importa la clase Objects, necesaria para simplificar la implementación de equals y hashCode.
 public class Materia {
     private String nombre; //Variable de instancia privada para almacenar el nombre de la materia.
     private String codigo;
@@ -11,6 +11,7 @@ public class Materia {
         this.codigo = codigo;
         this.creditos = creditos;
         this.calificacion = calificacion;
+        //El atributo 'profesor' no se inicializa acá, se asigna después con el setter.
     }
 
     public String getNombre() { //Definimos el método getter público para obtener el nombre.
@@ -43,29 +44,30 @@ public class Materia {
         return profesor;
     }
 
-    public void setProfesor(Profesor profesor){
+    public void setProfesor(Profesor profesor){ //Setter para asignar el objeto Profesor a la materia.
         this.profesor = profesor;
     }
 
+    //Método toString, genera una representación legible del objeto.
     public String toString(){
+        //Incluye todos los atributos, incluyendo la referencia al Profesor.
         return super.toString() + "Nombre: " + nombre + ", Código: " + codigo + "Créditos: " + creditos + ", Calificación: " + calificacion + ", Profesor: " + profesor;
     }
 
-@Override  //metodo equals
+@Override  //Método equals, define cuándo dos objetos Materia son considerados iguales.
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o) return true; //Si son el mismo objeto en memoria, son iguales.
+        if (o == null || getClass() != o.getClass()) return false; //Si 'o' es null o de otra clase, no son iguales.
         
-        Materia materia = (Materia) o;
+        Materia materia = (Materia) o; //Se convierte el objeto genérico 'o' a tipo Materia.
         
         // Comparamos el atributo único 'codigo'
         return Objects.equals(codigo, materia.codigo);
     }
 
-    //Método hashCode
-    @Override
+    @Override // Método hashCode, genera un código hash consistente con equals.
     public int hashCode() {
-        // Se genera el hash basado en 'codigo'.
+        // Genera el código hash basado solo en el atributo 'codigo', asegurando que dos materias con el mismo código tengan el mismo hash.
         return Objects.hash(codigo);
     }
 }

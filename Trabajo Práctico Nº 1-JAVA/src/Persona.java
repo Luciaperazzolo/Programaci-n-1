@@ -1,26 +1,27 @@
 public class Persona {
-    // Atributos privados
+    //ATRIBUTOS PRIVADOS (Encapsulamiento)
     private String nombre;
     private String apellido;
     private int edad;
-    private String documento; // Nuevo atributo para el documento/DNI/identificación
+    private String documento; //Atributo único que se usará para identificar a la Persona.
 
-    // Constructor con parámetros
+    //Constructor con parámetros
     public Persona(String nombre, String apellido, int edad, String documento) {
-        // Usamos los setters para aprovechar las posibles validaciones
+        //Llama a los métodos setters en lugar de asignar directamente para aplicar las validaciones.
         setNombre(nombre);
         setApellido(apellido);
         setEdad(edad);
         setDocumento(documento);
     }
 
-    // Getters y Setters
+    //Getters y Setters
+    //Getter para obtener el nombre.
     public String getNombre() {
         return nombre;
     }
 
     public void setNombre(String nombre) {
-        // Reutilizamos la validación de nombre
+        //Solo asigna el nombre si no es nulo y no está vacío.
         if (nombre != null && !nombre.isEmpty()) {
             this.nombre = nombre;
         }
@@ -31,7 +32,7 @@ public class Persona {
     }
 
     public void setApellido(String apellido) {
-        // Reutilizamos la validación de apellido
+        //Solo asigna el apellido si no es nulo y no está vacío.
         if (apellido != null && !apellido.isEmpty()) {
             this.apellido = apellido;
         }
@@ -42,7 +43,7 @@ public class Persona {
     }
 
     public void setEdad(int edad) {
-        // Reutilizamos la validación de edad
+        //Solo asigna la edad si es mayor a 16.
         if (edad > 16) {
             this.edad = edad;
         }
@@ -53,7 +54,7 @@ public class Persona {
     }
 
     public void setDocumento(String documento) {
-        // Simple validación: no nulo ni vacío
+        //Asigna el documento solo si no es nulo ni una cadena vacía.
         if (documento != null && !documento.isEmpty()) {
             this.documento = documento;
         }
@@ -65,21 +66,20 @@ public class Persona {
     }
 
 
-@Override //metodo equals para comparar dos objetos de la clase Persona
-    public boolean equals(Object o) {
+@Override // Método equals: define cuándo dos objetos Persona son iguales (basado en el documento).
+    public boolean equals(Object o) { 
+        if (this == o) return true; //Si son el mismo objeto en memoria, devuelve true.
+        if (o == null || getClass() != o.getClass()) return false; //Si 'o' es nulo o no es de la clase Persona, devuelve false.
         
-        if (this == o) return true;  // Comprobar si son el mismo objeto
-        if (o == null || getClass() != o.getClass()) return false; // Comprobar si o es nulo o de una clase diferente
-        
-        // Convertir el objeto 'o' a 'Persona'
+        //Convierte el objeto genérico 'o' a tipo Persona.
         Persona persona = (Persona) o;
-        
+        //Compara el atributo único 'documento'. Dos personas son iguales si tienen el mismo documento.
         return java.util.Objects.equals(documento, persona.documento);
     }
 
 @Override
     public int hashCode() {
-        // Se utiliza Objects.hash para generar el código hash basado en 'documento'.
+        // Se utiliza Objects.hash para generar el código hash basado en 'documento', asegurando que objetos iguales (mismo documento) tengan el mismo hash.
         return java.util.Objects.hash(documento);
     }
 }

@@ -1,4 +1,4 @@
-public class Estudiante extends Persona implements MiembroUniversidad{ //Definimos una clase pública llamada Estudiante.
+public class Estudiante extends Persona implements MiembroUniversidad{ //Definimos una clase pública llamada Estudiante, HEREDA de Persona (atributos básicos), IMPLEMENTA la interfaz MiembroUniversidad (contrato de rol y obtener información).
     // Atributos privados para aplicar encapsulamiento
     private String carrera;
     private double promedio;
@@ -9,15 +9,15 @@ public class Estudiante extends Persona implements MiembroUniversidad{ //Definim
 
     // Constructor sin parámetros
     public Estudiante() {
-       super(null, null, 0, null); 
+       super(null, null, 0, null); //Llama al constructor de la clase Persona inicializando los atributos heredados con valores nulos/cero.
     } 
 
     // Constructor con parámetros usando this
     public Estudiante(String nombre, String apellido, int edad, String documento , String carrera, double promedio) { //Se define un constructor que inicializa todos los atributos principales.
-        super (nombre , apellido , edad , documento); // Llamada al constructor de la clase base
+        super (nombre , apellido , edad , documento); //Llama al constructor de la clase base (Persona) para inicializar los atributos heredados.
         // Atributos propios de Estudiante
         this.carrera = carrera; //Asigna directamente el valor a la variable de instancia. No tiene ninguna lógica de validación dentro de su método setter.
-        setPromedio(promedio);
+        setPromedio(promedio); //Usa el setter para aplicar la validación de rango (0 a 10) al promedio.
     }
 
     // Getters y Setters con validaciones
@@ -31,14 +31,15 @@ public class Estudiante extends Persona implements MiembroUniversidad{ //Definim
     public double getPromedio() { 
         return promedio; 
     }
+    //Setter con validación para asegurar que el promedio esté en un rango válido.
     public void setPromedio(double promedio) { //Método setter para establecer el promedio.
         if (promedio >= 0 && promedio <= 10) this.promedio = promedio; //Asigna el promedio solo si está en el rango de 0 a 10.
     }
 
-    // Método para agregar una materia
+    //Método para agregar una materia al array de materias del estudiante.
     public void agregarMateria(Materia materia) { //Definimos un método para añadir una Materia al array.
         if (cantidadMaterias < materias.length) { //Comprueba si el array de materias no ha alcanzado su capacidad máxima (10).
-            materias[cantidadMaterias++] = materia; //Añade el objeto Materia al siguiente espacio disponible y luego incrementa el contador de materias.
+            materias[cantidadMaterias++] = materia; // Añade la materia al índice actual y luego incrementa el contador (cantidadMaterias++).
         }
     }
 
@@ -60,8 +61,8 @@ public class Estudiante extends Persona implements MiembroUniversidad{ //Definim
         }
     }
 
-
     //Método toString, Muestra la información de los objetos de manera legible.
+    //Concatena la información heredada (Persona) y la propia (Carrera, Promedio).
     public String toString() {
     return "Nombre: " + getNombre() + ", " +
            "Apellido: " + getApellido() + ", " +
@@ -72,82 +73,16 @@ public class Estudiante extends Persona implements MiembroUniversidad{ //Definim
 }
 
     //Implementacion de metodos de la interfaz MiembroUniversidad
+    //Método para devolver el rol del miembro en la universidad.
     @Override
     public String obtenerRol() {
-        return "Estudiante";
+        return "Estudiante"; //Devuelve el rol específico de esta clase.
     }
 
+    //Método para devolver toda la información del miembro.
     @Override
     public String obtenerInformacionCompleta() {
         // Reutilizamos el método toString() para la información completa
         return this.toString();
     }
-
-
-
-
-
-
-    //Parte 1 del tp: Implementación de Funciones Recursivas
-    //función recursiva para calcular el promedio académico de un estudiante
-
-    public static double calcularPromedioRecursivo(Materia[] materias, int indice) { //si el arreglo es nulo o llegamos al final
-    if (materias == null || indice >= materias.length) {
-        return 0.0;
-    }
-
-    if (materias[indice] == null) {     // Si la materia en esta posición es nula, pasamos a la siguiente
-        return calcularPromedioRecursivo(materias, indice + 1);
-    }
-
-    double promedioResto = calcularPromedioRecursivo(materias, indice + 1); // Llamada recursiva para el resto del arreglo
-
-    int materiasRestantes = contarMateriasRecursivo(materias, indice + 1); // Contamos cuántas materias quedan después de esta
-
-    int totalMaterias = 1 + materiasRestantes;  // Total de materias válidas hasta ahora
-
-    double sumaTotal = (promedioResto * materiasRestantes) + materias[indice].getCalificacion();// Suma total = calificación actual + suma del resto
-
-    return sumaTotal / totalMaterias;   // Calculamos el promedio total
-}
-
-// Método auxiliar para contar materias válidas
-private static int contarMateriasRecursivo(Materia[] materias, int indice) {
-    if (materias == null || indice >= materias.length) {
-        return 0;
-    }
-    if (materias[indice] == null) {
-        return contarMateriasRecursivo(materias, indice + 1);
-    }
-    return 1 + contarMateriasRecursivo(materias, indice + 1);
-}
-/*  Recursivo: más elegante desde el punto de vista teórico,
-    pero más dificil de leer y menos eficiente
-    porque hace muchas llamadas a la pila.*/
-
-
-
-//versión iterativa
-public double calcularPromedioIterativo() {
-    double suma = 0.0;
-    int contador = 0;
-
-    // Verificamos primero que el arreglo no sea nulo
-    if (materias != null) {
-        // Recorremos las materias
-        for (Materia m : materias) {
-            // Si la materia existe, sumamos su calificación y contamos
-            if (m != null) {
-                suma += m.getCalificacion();
-                contador++;
-            }
-        }
-    }
-
-    // Si no hay materias válidas, devolvemos 0
-    return (contador == 0) ? 0.0 : (suma / contador);
-}
-//  Iterativo: más simple y directo, recomendado en casos reales con muchos datos.
-
-
 }

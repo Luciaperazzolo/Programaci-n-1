@@ -1,9 +1,9 @@
 public class Main { //Definimos la clase pública principal donde comienza la ejecución del programa.
     public static void main(String[] args) {
-        // Creamos la carrera
+        //Creamos la carrera
         Carrera carrera = new Carrera("Programador Univesitario"); //Creamos una nueva instancia de la clase Carrera con el nombre "Programador Universitario".
 
-        // Estudiante con constructor sin parámetros
+        //Estudiante con constructor sin parámetros
         Estudiante e1 = new Estudiante(); //Crea una nueva instancia de Estudiante usando el constructor sin parámetros.
         e1.setNombre("Lucía"); //Asigna el nombre "Lucía" usando el método setter.
         e1.setApellido("Perazzolo"); 
@@ -11,11 +11,9 @@ public class Main { //Definimos la clase pública principal donde comienza la ej
         e1.setDocumento("42.799.841");
         e1.setCarrera("Programador Univesitario");
         
-        // Estudiantes con constructor con parámetros
+        //Estudiantes con constructor con parámetros
         Estudiante e2 = new Estudiante("Agostina", "Gutierrez", 22, "44.953.861", "Programador Univesitario", 0);
         Estudiante e3 = new Estudiante("Ramiro", "Pereira", 20 , "45.995.692" , "Programador Univesitario", 0);
-
-
 
         //Crear la Universidad
         Universidad universidad = new Universidad("Unvime", "Sede Los Poetas");
@@ -25,7 +23,7 @@ public class Main { //Definimos la clase pública principal donde comienza la ej
         Profesor p2 = new Profesor("Reynaldo" , "Gomez" , 40 , "30.234.543" , "Ingeniero en sistemas", 20);
         Personal admin1 = new Personal("Javier", "Lopez", 35, "30.000.111", "Recursos Humanos", "Jefe de Personal", "2019-03-01");
         
-        // Agregamos miembros a la universidad usando metodo
+        //Agregamos miembros a la universidad usando metodo
         universidad.agregarMiembro(e1); // Estudiante
         universidad.agregarMiembro(e2); // Estudiante
         universidad.agregarMiembro(e3); // Estudiante
@@ -33,9 +31,7 @@ public class Main { //Definimos la clase pública principal donde comienza la ej
         universidad.agregarMiembro(p2); //Profesor
         universidad.agregarMiembro(admin1); // Personal
         
-
-
-        // Agregamos materias a estudiantes
+        //Agregamos materias a estudiantes
         e1.agregarMateria(new Materia("Programación", "INF101", 4, 9.0)); //Crea una nueva Materia y la agrega al estudiante e1.
         e1.agregarMateria(new Materia("Matemática", "MAT102", 3, 8.5));
 
@@ -54,15 +50,35 @@ public class Main { //Definimos la clase pública principal donde comienza la ej
         // Creamos arreglo de estudiantes
         Estudiante[] estudiantes = { e1, e2, e3 }; //Creamos un array de Estudiante y lo inicializa con los objetos creados (e1, e2, e3).
 
-        // Listar todos los miembros 
-        System.out.println("\n---Todos los miembros de la universidad:---");
-        universidad.listarTodosLosMiembros();
-        // Buscar por rol
-        universidad.listarMiembrosPorRol("Estudiante");
-        universidad.listarMiembrosPorRol("Profesor");
-        universidad.listarMiembrosPorRol("Personal"); // Usar el rol definido en Personal.java
+        //--- ORDENAMIENTO ---
+        System.out.println("\n--- Ordenando estudiantes por Apellido ---"); //Imprime un encabezado.
+        //Llama al método estático para ordenar el array:
+        Estudiante[] estudiantesOrdenados = Universidad.ordenarEstudiantesPorApellido(estudiantes); //Llama al método de ordenamiento en la clase Universidad.
+        for (Estudiante e : estudiantesOrdenados) { //Itera sobre el array ordenado.
+            System.out.println(e.getApellido() + ", " + e.getNombre()); //Imprime el apellido y nombre ordenados.
+        }
 
-        // Recorremos el arreglo e imprimimos nombre y promedio
+        //--- BÚSQUEDA BINARIA ---
+        System.out.println("\n--- Búsqueda Binaria por Apellido ---"); //Imprime un encabezado.
+        String apellidoBuscado = "Pereira"; //Define el valor a buscar.
+        //Llama al método estático de búsqueda binaria (DEBE USAR EL ARRAY ORDENADO)
+        int indiceEncontrado = Universidad.busquedaBinariaEstudiantes(estudiantesOrdenados, apellidoBuscado); //Busca el apellido en el array ordenado.
+
+        if (indiceEncontrado != -1) { //Verifica si el índice es diferente de -1 (encontrado).
+            System.out.println("Estudiante encontrado en el índice " + indiceEncontrado + ": " + estudiantesOrdenados[indiceEncontrado].getNombre()); //Imprime la ubicación y el nombre del estudiante.
+        } else {
+            System.out.println("Estudiante con apellido " + apellidoBuscado + " no encontrado."); //Imprime el mensaje de no encontrado.
+        }
+
+        //Listar todos los miembros 
+        System.out.println("\n---Todos los miembros de la universidad:---");
+        universidad.listarTodosLosMiembros(); //Llama al método de Universidad para listar toda la información de los miembros.
+        // Buscar por rol
+        universidad.listarMiembrosPorRol("Estudiante"); //Llama al método para listar solo los miembros con rol "Estudiante".
+        universidad.listarMiembrosPorRol("Profesor"); //Llama al método para listar solo los miembros con rol "Profesor".
+        universidad.listarMiembrosPorRol("Personal"); //Llama al método para listar solo los miembros con rol "Personal".
+
+        //Recorremos el arreglo e imprimimos nombre y promedio
         System.out.println("\n---Promedios de estudiantes:---\n");
         for (int i = 0; i < estudiantes.length; i++) { //Inicia un bucle 'for' para recorrer el array de estudiantes.
             System.out.println(estudiantes[i].getNombre() + ": " + estudiantes[i].getPromedio()); //Imprime el nombre y el promedio de cada estudiante.
@@ -81,18 +97,18 @@ public class Main { //Definimos la clase pública principal donde comienza la ej
         System.out.println("\n---Materias de todos los estudiantes:---");
         carrera.mostrarMateriasDeTodos(); //Llama al método de Carrera para listar las materias de cada estudiante.
 
-        for (MiembroUniversidad miembro : universidad.getMiembros()) {
-    System.out.println("\nTipo de miembro: " + miembro.obtenerRol());
-    System.out.println("Información completa: " + miembro.obtenerInformacionCompleta());
-}
+        for (MiembroUniversidad miembro : universidad.getMiembros()) { //Inicia un bucle para iterar sobre todos los miembros usando la interfaz.
+            System.out.println("\nTipo de miembro: " + miembro.obtenerRol()); //Llama al método 'obtenerRol'.
+            System.out.println("Información completa: " + miembro.obtenerInformacionCompleta()); // Llama al método 'obtenerInformacionCompleta'.
+        }
     
 
     System.out.println("\n--- Demostración de Polimorfismo ---");
     
-    // Procesamos todos los miembros de la universidad sin importar su tipo concreto
-        for (MiembroUniversidad miembro : universidad.getMiembros()) {  // Llamada a métodos definidos en la interfaz MiembroUniversidad.
-            System.out.println("\nTipo de miembro: " + miembro.obtenerRol());
-            System.out.println("Información completa: " + miembro.obtenerInformacionCompleta());
+        // Procesamos todos los miembros de la universidad sin importar su tipo concreto
+        for (MiembroUniversidad miembro : universidad.getMiembros()) {  //Itera nuevamente sobre la lista de la interfaz MiembroUniversidad.
+            System.out.println("\nTipo de miembro: " + miembro.obtenerRol()); //El método llamado se resuelve en tiempo de ejecución para cada tipo (Profesor, Estudiante, Personal).
+            System.out.println("Información completa: " + miembro.obtenerInformacionCompleta()); 
         }
 
     }
